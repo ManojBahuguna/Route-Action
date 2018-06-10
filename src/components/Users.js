@@ -1,5 +1,8 @@
 import React from 'react';
-import { Table } from 'antd';
+import { withRouter, Route } from 'react-router-dom';
+import { Table, Layout } from 'antd';
+import UserDetails from './users/UserDetails';
+const { Content } = Layout;
 
 const columns = [
   {
@@ -20,8 +23,37 @@ const columns = [
   }
 ];
 
-const Users = ({ users }) => (
-  <Table rowKey="id" pagination={{ pageSize: 25 }} columns={columns} dataSource={users} />
-);
+const findByKeyInArrayOfObjects = function (array, value, key = 'id') {
+  return array.find(item => {
+    return item[key] === value;
+  })
+};
 
-export default Users;
+const Users = ({ users, history }) => {
+  const onRow = user => ({
+    onClick: () => {
+      history.push(`/${user.id}`);
+    }
+  });
+
+  return (
+    <Layout>
+
+      <Content>
+        <Table onRow={onRow} rowKey="id" pagination={{ pageSize: 25 }} columns={columns} dataSource={users} />
+      </Content>
+
+      <Route
+        path="/:id?"
+        render={({ match }) => {
+          const userId = Number(match.params.id);
+          const user = userId !== undefined ? findByKeyInArrayOfObjects(users, userId) : {};
+          return <UserDetails user={user} />
+        }}
+      />
+
+    </Layout>
+  );
+}
+
+export default withRouter(Users);
