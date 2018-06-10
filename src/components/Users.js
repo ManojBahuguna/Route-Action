@@ -1,6 +1,6 @@
 import React from 'react';
 import { withRouter, Route } from 'react-router-dom';
-import { Table, Layout } from 'antd';
+import { Table, Layout, Card } from 'antd';
 import UserDetails from './users/UserDetails';
 const { Content } = Layout;
 
@@ -40,7 +40,9 @@ const Users = ({ users, history }) => {
     <Layout>
 
       <Content>
-        <Table onRow={onRow} rowKey="id" pagination={{ pageSize: 25 }} columns={columns} dataSource={users} />
+        <Card>
+          <Table onRow={onRow} rowKey="id" pagination={{ pageSize: 25 }} columns={columns} dataSource={users} />
+        </Card>
       </Content>
 
       <Route
