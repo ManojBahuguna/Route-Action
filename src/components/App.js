@@ -7,7 +7,7 @@ class App extends Component {
   };
 
   componentDidMount() {
-    fetch('http://demo9197058.mockable.io/users')
+    fetch('https://demo9197058.mockable.io/users')
       .then(res => res.json())
       .then(posts => {
         this.setState({ posts });
